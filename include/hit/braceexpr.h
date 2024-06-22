@@ -1,7 +1,6 @@
-#ifndef HIT_BRACEEXPR
-#define HIT_BRACEEXPR
+#pragma once
 
-#include "parse.h"
+#include "hit/parse.h"
 
 #include <string>
 #include <vector>
@@ -24,7 +23,7 @@ errormsg(std::string fname, Node * n, T arg, Args... args)
 {
   std::stringstream ss;
   if (n && fname.size() > 0)
-    ss << fname << ":" << n->line() << ": ";
+    ss << fname << ":" << n->line() << "." << n->column() << ": ";
   else if (fname.size() > 0)
     ss << fname << ":0: ";
   ss << arg;
@@ -44,7 +43,7 @@ errormsg(Node * n, T arg, Args... args)
 {
   std::stringstream ss;
   if (n)
-    ss << n->filename() << ":" << n->line() << ": ";
+    ss << n->filename() << ":" << n->line() << "." << n->column() << ": ";
   ss << arg;
   ss << errormsg(nullptr, args...);
   return ss.str();
@@ -117,5 +116,3 @@ private:
 };
 
 } // namespace hit
-
-#endif
